@@ -1,7 +1,11 @@
+import time
+print('\n\n𝙋 𝙇 𝙀 𝘼 𝙎 𝙀  𝙒 𝘼 𝙄 𝙏  𝙁 𝙊 𝙍  𝙎 𝙊 𝙈 𝙀  𝙏 𝙄 𝙈 𝙀\n')
+time.sleep(3)
+print('𝐃 𝐎 𝐖 𝐍 𝐋 𝐎 𝐀 𝐃 𝐈 𝐍 𝐆  𝐏 𝐀 𝐂 𝐊 𝐀 𝐆 𝐄 𝐒 ......\n\n')
+time.sleep(2)
 import os
 os.system('pip install pyttsx3')
 os.system('pip install wikipedia')
-os.system('pip install webbrowser')
 os.system('pip install speedtest-cli')
 os.system('pip install beautifulsoup4')
 os.system('pip install requests')
@@ -10,7 +14,6 @@ os.system('pip install pygame')
 import pyttsx3                       
 from datetime import datetime,date
 import wikipedia
-import time
 import random
 import webbrowser
 import speedtest
