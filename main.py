@@ -1,18 +1,22 @@
-import pyttsx3                                #install
+import os
+os.system('pip install pyttsx3')
+os.system('pip install wikipedia')
+os.system('pip install webbrowser')
+os.system('pip install speedtest-cli')
+os.system('pip install beautifulsoup4')
+os.system('pip install requests')
+os.system('pip install pygame')
+
+import pyttsx3                       
 from datetime import datetime,date
-import wikipedia                                #insta
-import psutil
+import wikipedia
 import time
 import random
 import webbrowser
 import speedtest
-from bs4 import BeautifulSoup 
-from GoogleNews import GoogleNews
-import nltk
-from textblob import TextBlob
-from newspaper import Article
+from bs4 import BeautifulSoup
 import json
-import requests                                #instal
+import requests                 
 
 from os import environ                             # This method is used just to remove default welcome message from pygame
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
@@ -147,6 +151,7 @@ def quote(type):
         return quote
     except:
         pass
+########################## MAIN ############################
 
 if __name__ == "__main__":
 
@@ -195,19 +200,6 @@ if __name__ == "__main__":
         elif "ttc" in Input_command:
             import tictactoe
             tictactoe.play_game()
-
-        elif 'power left' in Input_command or 'battery' in Input_command or "power" in Input_command:
-            # Works only in laptop
-            battery=psutil.sensors_battery()
-            percentage =int(battery.percent)
-            print(percentage)
-            speak(f"sir our system have {percentage} percent battery")
-            if percentage>=75:
-                speak('we have enough power to continue our work')
-            elif percentage>=40 and percentage<=75:
-                speak( ' we should connect our system to charging point ')
-            else:
-                speak('we have very low power')
 
         elif "internet" in Input_command and "speed" in Input_command:
             speak("Wait for while...")
