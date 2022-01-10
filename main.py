@@ -288,7 +288,7 @@ if __name__ == "__main__":
         ############### COVID CASES ################
 
         elif 'active cases of covid' in Input_command:
-
+            #Ask ---> active cases of covid in India
             # Sample--> active cases of covid in india
             cases=check_command_is_for_covid_cases(Input_command)
             print(cases)
