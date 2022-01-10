@@ -1,15 +1,15 @@
 import time
-print('\n\n𝙋 𝙇 𝙀 𝘼 𝙎 𝙀  𝙒 𝘼 𝙄 𝙏  𝙁 𝙊 𝙍  𝙎 𝙊 𝙈 𝙀  𝙏 𝙄 𝙈 𝙀\n')
+print('\033[1m'+'\n\n P L E A S E  W A I T  F O R  S O M E T I M E  \n' + "\033[0m")
 time.sleep(3)
-print('𝐃 𝐎 𝐖 𝐍 𝐋 𝐎 𝐀 𝐃 𝐈 𝐍 𝐆  𝐏 𝐀 𝐂 𝐊 𝐀 𝐆 𝐄 𝐒 ......\n\n')
+print('\033[1m'+'\n\n D O W N L O A D I N G  P A C K A G E S  . . . \n\n' + "\033[0m")
 time.sleep(2)
 import os
-os.system('pip install pyttsx3')
+'''os.system('pip install pyttsx3')
 os.system('pip install wikipedia')
 os.system('pip install speedtest-cli')
 os.system('pip install beautifulsoup4')
 os.system('pip install requests')
-os.system('pip install pygame')
+os.system('pip install pygame')'''
 
 import pyttsx3                       
 from datetime import datetime,date
@@ -21,7 +21,8 @@ from bs4 import BeautifulSoup
 import json
 import requests                 
 
-from os import environ                             # This method is used just to remove default welcome message from pygame
+from os import environ                            
+# This method is used just to remove default welcome message from pygame
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 pygame.mixer.init()
@@ -90,6 +91,7 @@ def wishMe():
     if hour >=0 and hour<12:
         print("good morning",end=' ')
         speak('good morning')
+
     elif hour>=12 and hour<18:
         print("good afternoon",end=' ')
         speak('good afternoon') 
@@ -132,6 +134,7 @@ def get_covid_cases(country):               # For getting current covid cases
     return totalActiveCases
 
 def Introduction():
+
     print("I am EFFLUX , Virtual assistant"
           "Created by Mrinank Bhowmick and Aditya Prasad,"
           "I can help you in various regards,"
@@ -146,14 +149,17 @@ def Introduction():
           "I can also grab definitions for you from wikipedia,"
           "I am always happy to help you!")
 
-def quote(type):
+def quote_func(type):
     try:
+
         response=requests.get(f"https://efflux.herokuapp.com/{type}")
         json_data=json.loads(response.text)
         quote =json_data['q'] + " by "+json_data["a"]
         return quote
+
     except:
         pass
+
 ########################## MAIN ############################
 
 if __name__ == "__main__":
@@ -161,22 +167,23 @@ if __name__ == "__main__":
     wishMe()
 
     while True:
-        Input_command=input('query ').lower()
+        Input_command=input('Query : ').lower()
+
+        ########################## Introduction ############################
         
+        if 'tell me about yourself' and 'who are you' in Input_command:
+            Introduction()
+
         #################### WIKIPEDIA ##############################
 
-        if "wikipedia"in Input_command:
+        elif "wikipedia"in Input_command:
+            #Tell ---> sachin tendulkar wikipedia
 
             print('searching wikipedia....')
             speak('searching wikipedia....')
             results=wikipedia.summary(Input_command.replace("wikipedia", ""), sentences=2)
             print(results)
             speak(results)
-
-        ########################## Introduction ############################
-        
-        elif 'tell me about yourself' and 'who are you' in Input_command:
-            Introduction()
 
         ############################ MUSIC ###############################
 
@@ -200,7 +207,9 @@ if __name__ == "__main__":
         
         ########################### GAMES ###########################
 
-        elif "ttc" in Input_command:
+        elif "tic tac toe" in Input_command:
+            #Request ---> I want to play tic tac toe
+
             import tictactoe
             tictactoe.play_game()
 
@@ -209,18 +218,24 @@ if __name__ == "__main__":
             st = speedtest.Speedtest()
             up = round(st.upload() / 10 ** 6, 2)
             down = round(st.download() / 10 ** 6, 2)
+
             print(f"Download Speed is {down} MB/s")
             speak(f"Download Speed is {down} MB per Sceond")
+
             print(f"Upload Speed is {up} MB/s")
             speak(f"Upload Speed is {up} Mb per Sceond")
 
         elif 'joke' in Input_command:
-            import pyjokes
-            s=pyjokes.get_joke()
-            print(s)
-            speak(s)
+            #Ask --> Tell me a joke
+            fin=open("jokes.txt",'r')
+            joke=fin.readlines()[random.randint(1,37)]
+            print(joke)
+            speak(joke)
+            fin.close()
 
         elif "weather" in Input_command:
+            #Ask ---> what is today's weather
+
             search='temperature in kolkata'
             url=f'https://www.google.com/search?q={search}'
             r=requests.get(url)
@@ -231,23 +246,31 @@ if __name__ == "__main__":
         ########################### NOTE #############################
 
         elif "write a note" in Input_command:
+            #Request ---> Can you do me a favour, can you write a note for me
+
             speak("What should i write, sir")
-            note = input("Tell what to write:\n")
+            note = input("Tell me what to write:\n")
             file = open('notes.txt', 'a')
-            speak("Sir, Should i include date ?")
-            print("Sir, Should i include date ?")
+
+            speak("Sir, Should I include date ?")
+            print("Sir, Should I include date ?")
             snfm = input("yes/no ")
+
             if 'yes' in snfm or 'sure' in snfm:
                 strTime = str(today = date.today())
                 file.write(strTime)
                 file.write(" :- ")
                 file.write(f'{note}\n')
                 file.close()
+
             else:
                 file.write(f'{note}\n') 
                 file.close()
 
-        elif "show note" in Input_command:
+        elif "show note" in Input_command or "see note" in Input_command:
+            #Request ---> I want to see notes
+            # or request ---> show me the notes
+
             speak("Showing notes on terminal.")
             file = open("notes.txt", "r")
             print(file.read())
@@ -255,6 +278,8 @@ if __name__ == "__main__":
         ############### CURRENT TIME ###############
 
         elif "tell time" in Input_command or "what is the time" in Input_command:
+            #Ask ---> Can you tell what is the time right now?
+
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
             print("Current Time is", current_time)
@@ -263,6 +288,7 @@ if __name__ == "__main__":
         ############### COVID CASES ################
 
         elif 'active cases of covid' in Input_command:
+
             # Sample--> active cases of covid in india
             cases=check_command_is_for_covid_cases(Input_command)
             print(cases)
@@ -271,6 +297,7 @@ if __name__ == "__main__":
         ############### DAY ######################
 
         elif 'which day is today' in Input_command:
+
             day = datetime.today().weekday() + 1
             Day_dict = {1: 'Monday', 2: 'Tuesday',3: 'Wednesday', 4: 'Thursday',5: 'Friday', 6: 'Saturday',7: 'Sunday'}
 
@@ -283,6 +310,7 @@ if __name__ == "__main__":
         ############### DATE ######################
 
         elif 'date' in Input_command:
+            #Ask---> Tell me today's date
 
             today = date.today()
             print("Today's date:", today)
@@ -290,7 +318,9 @@ if __name__ == "__main__":
 
         ################ YOUTUBE SEARCH #############
 
-        elif 'youtube' in Input_command:    # Ask ---> Search for Avengers on Youtube
+        elif 'youtube' in Input_command:    
+            # Ask ---> Search for Avengers on Youtube
+
             search_term = Input_command.split('for')[-1].split('on')[0].strip()
             url = f'https://www.youtube.com/results?search_query={search_term}'
             webbrowser.get().open(url)
@@ -299,42 +329,60 @@ if __name__ == "__main__":
         ################# QUOTES ################
 
         elif "depressed" in Input_command or "motivate" in Input_command:
+
             fin=open("quotes.txt",'r')
             quote=fin.readlines()[random.randint(1,200)]
             print(quote)
+            speak(quote)
+            fin.close()
+        
+        elif "add quote" in Input_command:
+            fin=open("quotes.txt",'a')
+            Quote=input("please tell which quote you want to add: ")
+            author=input("who is the author of this quote: ")
+
+            fin.write(f'{quote} by {author}')
+            fin.close()
 
         elif "business quote" in Input_command:
-            quote=quote('business')
+
+            quote=quote_func('business')
             print(quote)
             speak(quote)
         
         elif "war quote" in Input_command:
-            quote=quote('war')
+
+            quote=quote_func('war')
             print(quote)
             speak(quote)
         
         elif "love quote" in Input_command:
-            quote=quote('love')
+
+            quote=quote_func('love')
             print(quote)
             speak(quote)
         
         elif "life quote" in Input_command:
-            quote=quote('life')
+
+            quote=quote_func('life')
             print(quote)
             speak(quote)
         
         elif "hustle quote" in Input_command:
-            quote=quote('hustle')
+
+            quote=quote_func('hustle')
             print(quote)
             speak(quote)
         
         elif "friendship quote" in Input_command:
-            quote=quote('friendship')
+
+            quote=quote_func('friendship')
             print(quote)
             speak(quote)
 
         ############### BYE ####################
 
         elif "bye" in Input_command:
+
             speak("Bye for now...stay safe , stay happy , stay healthy")
             exit()
