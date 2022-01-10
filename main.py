@@ -4,12 +4,12 @@ time.sleep(3)
 print('\033[1m'+'\n\n D O W N L O A D I N G  P A C K A G E S  . . . \n\n' + "\033[0m")
 time.sleep(2)
 import os
-'''os.system('pip install pyttsx3')
+os.system('pip install pyttsx3')
 os.system('pip install wikipedia')
 os.system('pip install speedtest-cli')
 os.system('pip install beautifulsoup4')
 os.system('pip install requests')
-os.system('pip install pygame')'''
+os.system('pip install pygame')
 
 import pyttsx3                       
 from datetime import datetime,date
@@ -337,12 +337,16 @@ if __name__ == "__main__":
             fin.close()
         
         elif "add quote" in Input_command:
-            fin=open("quotes.txt",'a')
-            Quote=input("please tell which quote you want to add: ")
-            author=input("who is the author of this quote: ")
+            #Tell ---> I want to add quote
 
-            fin.write(f'{quote} by {author}')
-            fin.close()
+            password=input("Only admin have write access to it \nEnter password: ")
+            if password == "admin":
+                print("Login successful")
+                fin=open("quotes.txt",'a')
+                Quote=input("please tell which quote you want to add: ")
+                author=input("who is the author of this quote: ")
+                fin.write(f'{quote} by {author}\n')
+                fin.close()
 
         elif "business quote" in Input_command:
 
