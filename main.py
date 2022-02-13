@@ -4,6 +4,8 @@ time.sleep(3)
 print('\033[1m'+'\n\n D O W N L O A D I N G  P A C K A G E S  . . . \n\n' + "\033[0m")
 time.sleep(2)
 import os
+
+os.system('pip install stdiomask')
 os.system('pip install pyttsx3')
 os.system('pip install wikipedia')
 os.system('pip install speedtest-cli')
@@ -20,6 +22,7 @@ import speedtest
 from bs4 import BeautifulSoup
 import json
 import requests                 
+import stdiomask
 
 from os import environ                            
 # This method is used just to remove default welcome message from pygame
@@ -32,7 +35,7 @@ engine=pyttsx3.init()
 voices = engine.getProperty('voices')
 
 ########################### BANNER #####################################
- 
+
 print('───────────▄▄▄▄▄▄▄▄▄───────────')
 time.sleep(0.1)
 print('────────▄█████████████▄────────      ███████╗███████╗███████╗██╗     ██╗   ██╗██╗  ██╗')
@@ -105,7 +108,7 @@ def wishMe():
     speak('Please tell me how may I help you')
 
 def playmusic(): 
-    music_list=['Alan Walker  Fade NCS Release.mp3','Alan Walker  Spectre NCS Release.mp3','Tobu  Itro  Sunburst NCS Release.mp3']
+    music_list=['Alan Walker  Fade NCS Release.mp3','Alan Walker  Spectre NCS Release.mp3','Tobu  Itro  Sunburst NCS Release.mp3','OnlyMP3.net - Excuses  AP Dhillon  Gurinder Gill  Intense  Banger SZN-vX2cDW8LUWk-192k-1632771183696.mp3']
     music=random.choice(music_list)
     pygame.mixer.music.load(music)
     pygame.mixer.music.play()
@@ -135,14 +138,14 @@ def get_covid_cases(country):               # For getting current covid cases
 
 def Introduction():
 
-    print("I am EFFLUX , Virtual assistant"
+    print("I am EFFLUX , Virtual assistant "
           "Created by Mrinank Bhowmick and Aditya Prasad,"
           "I can help you in various regards,"
           "I can search for you on the Internet,"
           "I can also grab definitions for you from wikipedia,"
           "I am always happy to help you!")
 
-    speak("I am EFFLUX , Virtual assistant"
+    speak("I am EFFLUX , Virtual assistant "
           "Created by Mrinank Bhowmick and Aditya Prasad,"
           "I can help you in various regards,"
           "I can search for you on the Internet,"
@@ -171,19 +174,21 @@ if __name__ == "__main__":
 
         ########################## Introduction ############################
         
-        if 'tell me about yourself' and 'who are you' in Input_command:
+        if 'tell me about yourself' in Input_command or 'who are you' in Input_command:
             Introduction()
 
         #################### WIKIPEDIA ##############################
 
         elif "wikipedia"in Input_command:
             #Tell ---> sachin tendulkar wikipedia
-
-            print('searching wikipedia....')
-            speak('searching wikipedia....')
-            results=wikipedia.summary(Input_command.replace("wikipedia", ""), sentences=2)
-            print(results)
-            speak(results)
+            try:
+                print('searching wikipedia....')
+                speak('searching wikipedia....')
+                results=wikipedia.summary(Input_command.replace("wikipedia", ""), sentences=2)
+                print(results)
+                speak(results)
+            except Exception as e:
+                print(e)
 
         ############################ MUSIC ###############################
 
@@ -205,6 +210,16 @@ if __name__ == "__main__":
             speak('opening google for u')
             webbrowser.open("google.com")
         
+        elif "open stack overflow" in Input_command:
+            print('opening stack overflow for u')
+            speak('opening stack overflow for u')
+            webbrowser.open("stack overflow.com")
+        
+        elif "open twitch" in Input_command:
+            print('opening twitch for u')
+            speak('opening twitch for u')
+            webbrowser.open("twitch.tv")
+        
         ########################### GAMES ###########################
 
         elif "tic tac toe" in Input_command:
@@ -213,11 +228,11 @@ if __name__ == "__main__":
             import tictactoe
             tictactoe.play_game()
 
-        elif "internet" in Input_command and "speed" in Input_command:
+        elif "internet" in Input_command or "speed" in Input_command:
             speak("Wait for while...")
             st = speedtest.Speedtest()
             up = round(st.upload() / 10 ** 6, 2)
-            down = round(st.download() / 10 ** 6, 2)
+            down = round(st.download() / 10 ** 6, 3)
 
             print(f"Download Speed is {down} MB/s")
             speak(f"Download Speed is {down} MB per Sceond")
@@ -257,7 +272,7 @@ if __name__ == "__main__":
             snfm = input("yes/no ")
 
             if 'yes' in snfm or 'sure' in snfm:
-                strTime = str(today = date.today())
+                strTime = str(date.today())
                 file.write(strTime)
                 file.write(" :- ")
                 file.write(f'{note}\n')
@@ -283,7 +298,7 @@ if __name__ == "__main__":
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
             print("Current Time is", current_time)
-            speak("Current Time is", current_time)
+            speak(f"Current Time is {current_time}")
         
         ############### COVID CASES ################
 
@@ -339,7 +354,8 @@ if __name__ == "__main__":
         elif "add quote" in Input_command:
             #Tell ---> I want to add quote
 
-            password=input("Only admin have write access to it \nEnter password: ")
+            password=stdiomask.getpass("Only admin have write access to it \nEnter password: ")
+            
             if password == "admin":
                 print("Login successful")
                 fin=open("quotes.txt",'a')
